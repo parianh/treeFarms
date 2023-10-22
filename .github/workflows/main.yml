@@ -92,7 +92,7 @@ jobs:
             - name: Install required development tools - pkg-config (Windows)
               if: startsWith(matrix.config.name, 'Windows')
               run: |
-                  choco install -y pkgconfiglite
+                  choco install -y pkgconfiglite --allow-empty-checksums
             # Install required development tools: scikit-build
             - name: Install required development tools - scikit-build
               if: ${{ !startsWith(matrix.config.name, 'CentOS') }}
