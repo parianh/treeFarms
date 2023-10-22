@@ -27,7 +27,7 @@ You may use the following commands to install TreeFARMS along with its dependenc
 You need **Python 3.7 or later** to use the module `treefarms` in your project. If you encountered an error `ERROR: Could not find a version that satisfies the requirement treefarms`, try updating your pip to the latest version. 
 
 ```bash
-pip3 install attrs packaging editables pandas sklearn sortedcontainers gmpy2 matplotlib
+pip3 install attrs packaging editables pandas scikit-learn sortedcontainers gmpy2 matplotlib
 pip3 install treefarms
 ```
 
