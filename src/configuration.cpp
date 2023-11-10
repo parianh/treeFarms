@@ -44,9 +44,10 @@ std::string Configuration::tree = "";
 std::string Configuration::profile = "";
 std::string Configuration::datatset_encoding = "";
 
-bool Configuration::rashomon = true;
+bool Configuration::rashomon = true;  
+// Below we default the multiplier to 0.05 when no rashomon bound is specified in the configuration file
 float Configuration::rashomon_bound = 0.0; // 
-float Configuration::rashomon_bound_multiplier = 0.05; // 
+float Configuration::rashomon_bound_multiplier = 0.0; // 
 float Configuration::rashomon_bound_adder = 0.0; // 
 bool Configuration::rashomon_ignore_trivial_extensions = true;
 
@@ -123,6 +124,9 @@ void Configuration::configure(json config) {
     std::cout << config["rashomon_bound"] << std::endl;
     if (config.contains("rashomon_bound_multiplier")) { Configuration::rashomon_bound_multiplier = config["rashomon_bound_multiplier"]; }
     if (config.contains("rashomon_bound_adder")) { Configuration::rashomon_bound_adder = config["rashomon_bound_adder"]; }
+    if (!config.contains("rashomon_bound") && !config.contains("rashomon_bound_multiplier") && !config.contains("rashomon_bound_adder")) {
+        Configuration::rashomon_bound_multiplier = 0.05;  // defaults the multiplier to 0.05 when no rashomon bound is specified
+    }
     if (Configuration::rashomon) {
         assert(int(Configuration::rashomon_bound == 0) +
                    int(Configuration::rashomon_bound_multiplier == 0) +
