@@ -18,7 +18,7 @@ print("Additional CMake Arguments = {}".format(cmake_args))
 
 setup(
     name="treefarms",
-    version="0.2.1",
+    version="0.2.2",
     description="Implementation of Trees FAst RashoMon Sets",
     author="UBC Systopia Research Lab",
     url="https://github.com/ubc-systopia/treeFarms",
