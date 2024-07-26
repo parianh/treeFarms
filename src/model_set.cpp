@@ -320,7 +320,10 @@ void ModelSet::convert_ptr_and_to_json(
             feature_extensions.emplace_back(
                 json::array({left_ptr_conv->second, right_ptr_conv->second}));
         }
-        mapping[std::to_string(i.first)] = feature_extensions;
+        unsigned int binary_feature_index = i.first;
+        unsigned int feature_index;
+        State::dataset.encoder.decode(binary_feature_index, &feature_index);
+        mapping[std::to_string(feature_index)] = feature_extensions;
     }
     // node["values_of_interest"] = source->values_of_interest;
     node["terminal"] = source->terminal;
