@@ -233,6 +233,7 @@ void Optimizer::store_children(Task & task, unsigned int id) {
             upper = std::min(upper, split_upper);
         }
     }
+    if (lower > task.upperscope()) { return; }
     task.update(lower, upper, optimal_feature);
 }
 

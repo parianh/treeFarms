@@ -97,8 +97,8 @@ void Task::scope(float new_scope) {
 void Task::prune_feature(unsigned int index) { this -> _feature_set.set(index, false); }
 
 void Task::create_children(unsigned int id) {    
-    this -> _lowerbound = this -> _base_objective;
-    this -> _upperbound = this -> _base_objective;
+    // this -> _lowerbound = this -> _base_objective;
+    // this -> _upperbound = this -> _base_objective;
     Bitmask & buffer = State::locals[id].columns[0];
     bool conditions[2] = {false, true};
     Bitmask const & features = this -> _feature_set;
@@ -130,11 +130,14 @@ void Task::prune_features(unsigned int id) {
     if (Configuration::continuous_feature_exchange) { continuous_feature_exchange(id); }
     if (Configuration::feature_exchange) { feature_exchange(id); }
 
-    this -> _lowerbound = this -> _base_objective;
-    this -> _upperbound = this -> _base_objective;
+    // this -> _lowerbound = this -> _base_objective;
+    // this -> _upperbound = this -> _base_objective;
     Bitmask & buffer = State::locals[id].columns[0];
     bool conditions[2] = {false, true};
     Bitmask const & features = this -> _feature_set;
+    int optimal_feature = -1;
+    float new_lower = this -> _base_objective;
+    float new_upper = this -> _base_objective;
     for (int j_begin = 0, j_end = 0; features.scan_range(true, j_begin, j_end); j_begin = j_end) {
         for (int j = j_begin; j < j_end; ++j) {
             float lower = 0.0, upper = 0.0;
@@ -161,11 +164,15 @@ void Task::prune_features(unsigned int id) {
             //     if (lower > this -> _rashomon_bound) { continue; } // Hierarchical objective lower bounds for Rashomon set
             // } else if (lower > this -> _upperscope) { continue; } // Hierarchical objective lower bounds
             if (lower > this -> _upperscope) { continue; } // Hierarchical objective lower bounds
-            if (upper < this -> _upperbound) { this -> _optimal_feature = j; }
-            this -> _lowerbound = std::min(this -> _lowerbound, lower);
-            this -> _upperbound = std::min(this -> _upperbound, upper);
+            if (upper < new_upper) { optimal_feature = j; }
+            new_lower = std::min(new_lower, lower);
+            new_upper = std::min(new_upper, upper);
         }
     }
+    if (new_lower > this -> _upperscope) { return; }
+    this -> _lowerbound = new_lower;
+    this -> _upperbound = new_upper;
+    this -> _optimal_feature = optimal_feature;
 }
 
 void Task::continuous_feature_exchange(unsigned int id) {
