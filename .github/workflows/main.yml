@@ -212,7 +212,7 @@ jobs:
                   python3 treefarms/example.py
             # Upload the wheel file
             - name: Upload the wheel file
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v4
               with:
                   name: Artifacts
                   path: dist/*.whl
