@@ -35,7 +35,13 @@ jobs:
                     }
                     - {
                         name: "macOS Monterey x86-64",
-                        os: macos-12,
+                        os: macos-13,
+                        python-major-version: 3,
+                        python-minor-version: 7,
+                    }
+                    - {
+                        name: "macOS Amd",
+                        os: macos-14,
                         python-major-version: 3,
                         python-minor-version: 7,
                     }
@@ -214,5 +220,5 @@ jobs:
             - name: Upload the wheel file
               uses: actions/upload-artifact@v4
               with:
-                  name: Artifacts
+                  name: Artifacts-${{ matrix.config.os }}
                   path: dist/*.whl
