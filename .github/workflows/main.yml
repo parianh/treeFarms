@@ -43,7 +43,7 @@ jobs:
                         name: "macOS Amd",
                         os: macos-14,
                         python-major-version: 3,
-                        python-minor-version: 7,
+                        python-minor-version: 8,
                     }
                     - {
                         name: "Windows Server 2022 x86-64 (Python 3.7)",
@@ -220,5 +220,5 @@ jobs:
             - name: Upload the wheel file
               uses: actions/upload-artifact@v4
               with:
-                  name: Artifacts-${{ matrix.config.os }}
+                  name: Artifacts-${{ matrix.config.os }}-${{ matrix.config.name }}
                   path: dist/*.whl
